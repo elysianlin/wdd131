@@ -1,0 +1,59 @@
+body {
+    font-family: "Coemoeanr Gaeamonder", serif;
+    background-color: rgb(255, 255, 255);
+}
+
+.content {
+    max-width: 60%;
+    border: 1.5px solid #cccccc;
+    margin: 60px auto;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    font-weight: 200;
+}
+
+.header p {
+    font-size: 0.9em;
+    letter-spacing:3.5px;
+    color: #3F7AB9;
+    margin-bottom: 0;
+}
+
+hr {
+    border:none;
+    height:1px;
+    background-color: rgb(242,242,242);
+    width:80%;
+    margin-top:3px;
+}
+
+.topics {
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: auto 90px;
+}
+
+#italic {
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.list li {
+    margin-bottom: 20px;
+}
+
+.images {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.images img {
+    width:150px;
+}
