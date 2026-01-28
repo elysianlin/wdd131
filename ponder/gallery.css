@@ -34,7 +34,17 @@ dialog {
     top: 10vh;
     right: 2vh;
     padding: 3px 6px;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    font-family: 'Arial Black', sans-serif;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+}
+
+.close-viewer:hover {
+    background-color: darkred;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px black;
 }
 
 @media screen and (min-width: 700px) {
