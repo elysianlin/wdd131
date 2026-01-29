@@ -12,7 +12,7 @@ body {
 
 header h1 {
     font-family: 'Lobster', cursive;
-    font-weight:400;
+    font-weight: 400;
     font-style:normal;
     text-align: center;
     font-size: 3rem;
@@ -50,19 +50,26 @@ footer p{
 }
 nav {
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 1.3rem;
+    padding: 0;
+    display:none;
+    background-color: rgb(54,112,217);
+}
+
+nav.open {
+    display:block;
 }
 nav a {
     padding: 20px;
     color: white;
-    display: inline;
+    display: block;
+    font-size: 1.2rem;
 }
 nav a:hover {
     text-decoration: none;
     color: #171154;
 }
+
+
 
 #btn {
     font-family: cormorant Garamond, serif;
@@ -72,27 +79,28 @@ nav a:hover {
     text-align: center;
     color:white;
     font-size: 2rem;
-    display:none;
+    font-weight: bold;
+    display:block;
     width:100%;
     padding: 10px 0;   
 }
 
 .gallery {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     justify-items: center;
     padding:20px;
 }
 
 .gallery img {
-    width: 90%;
+    width: 80%;
     aspect-ratio:1/1;
     object-fit: cover;
     display:block;
     border: 4px solid white;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.729);
-    margin: 5px 10px;
+    margin: 10px;
 }
 
 footer {
@@ -100,33 +108,72 @@ footer {
     margin-top:40px;
 }
 
-@media screen and (max-width: 1000px) {
+header h1,
+#btn,
+nav,
+main,
+footer p {
+    max-width: 1000px;
+    margin: 1rem auto;
+}
+
+dialog img {
+    width: 90%;
+    display: block;
+    margin: 20vh auto;
+}
+dialog {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.75);
+}
+.close-viewer {
+    position: absolute;
+    top: 10vh;
+    right: 2vh;
+    padding: 3px 6px;
+    font-size: 1.3em;
+    font-family: 'Arial Black', sans-serif;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+}
+
+.close-viewer:hover {
+    background-color: darkred;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px black;
+}
+
+@media screen and (min-width: 700px) {
     .gallery {
         grid-template-columns: 1fr 1fr;
-        padding:auto 20px;
     }
     .gallery img {
         width: 65%;
-        margin: 10px;
-    }
-    nav a {
-        display: none;
-    }
-    nav {
-        padding:0;
-    }
-    #btn {
-        display: block;
     }
     
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 1000px) {
     .gallery {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
     }
     .gallery img {
-        width: 80%;
-        margin: 10px;
+        width: 90%;
+        margin: 5px 10px;
+    }
+    nav {
+        display: block;
+        padding: 10px 0;
+        font-size: 1.3rem;
+    }
+    nav a {
+        display:inline;
+        padding:20px;
+        font-size: 1.3rem;
+    }
+    #btn {
+        display: none;
     }
 }

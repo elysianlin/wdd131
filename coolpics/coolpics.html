@@ -6,12 +6,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqex
     RcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />"
     <link rel="stylesheet" href="coolpics.css" />
+    <script src="coolpics.js" defer></script>
 </head>
 <body>
     <header>
         <h1>Cool Pics 📷</h1>
-        <button id="btn">Menu</button>
-        <nav>
+        <button id="btn" aria-expanded="false" aria-controls="main-nav">Menu</button>
+        <nav id="main-nav">
             <a href="#">Home</a>
             <a href="#">People</a>
             <a href="#">Places</a>
@@ -32,6 +33,10 @@
             <img src="images/coolpic.jpg" alt="Cool Pic 8" />
             <img src="images/coolpic.jpg" alt="Cool Pic 9" />
         </section>
+        <dialog>
+            <img>
+            <button class="close-viewer">X</button>
+        </dialog>
     </main>
     <footer>
         <p>&copy; 2026 Cool Pics Portfolio - Elysian Lin</p>
