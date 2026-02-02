@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Lobster&display=swap');
+
+body {
+    background-color: #d9d9d9;
+    font-family: "cormorant Garamond", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+    margin:0;
+    padding:0;
+}
+
+header h1 {
+    font-family: 'Lobster', cursive;
+    font-weight: 400;
+    font-style:normal;
+    text-align: center;
+    font-size: 3rem;
+}
+
+header, footer {
+    background-color:rgb(54,112,217) ;
+    color:white;
+    width:100%;
+    padding: 1rem 0;
+}
+
+header {
+    padding:1rem auto;
+    padding-bottom: 0;
+}
+
+main {
+    padding-bottom: 2rem;
+}
+
+main h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+header h1,
+#menuBtn,
+nav,
+main,
+footer p{
+  max-width: 1000px;
+  margin: 1rem auto;
+}
+nav {
+    text-align: center;
+    padding: 0;
+    display:none;
+    background-color: rgb(54,112,217);
+}
+
+nav.open {
+    display:block;
+}
+nav a {
+    padding: 20px;
+    color: white;
+    display: block;
+    font-size: 1.2rem;
+}
+nav a:hover {
+    text-decoration: none;
+    color: #171154;
+}
+
+
+
+#menuBtn {
+    font-family: cormorant Garamond, serif;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    color:white;
+    font-size: 2rem;
+    font-weight: bold;
+    display:block;
+    width:100%;
+    padding: 10px 0;   
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    justify-items: center;
+    padding:20px;
+}
+
+.gallery img {
+    width: 80%;
+    aspect-ratio:1/1;
+    object-fit: cover;
+    display:block;
+    border: 4px solid white;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.729);
+    margin: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top:40px;
+}
+
+header h1,
+#menuBtn,
+nav,
+main,
+footer p {
+    max-width: 1000px;
+    margin: 1rem auto;
+}
+
+#viewer img {
+    width: 90%;
+    display: block;
+    margin: 20vh auto;
+}
+#viewer {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.75);
+}
+#closeBtn {
+    position: absolute;
+    top: 10vh;
+    right: 2vh;
+    padding: 3px 6px;
+    font-size: 1.3em;
+    font-family: 'Arial Black', sans-serif;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+}
+
+#closeBtn:hover {
+    background-color: darkred;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px black;
+}
+
+@media screen and (min-width: 700px) {
+    .gallery {
+        grid-template-columns: 1fr 1fr;
+    }
+    .gallery img {
+        width: 65%;
+    }
+    
+}
+
+@media screen and (min-width: 1000px) {
+    .gallery {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .gallery img {
+        width: 90%;
+        margin: 5px 10px;
+    }
+    nav {
+        display: block;
+        padding: 10px 0;
+        font-size: 1.3rem;
+    }
+    nav a {
+        display:inline;
+        padding:20px;
+        font-size: 1.3rem;
+    }
+    #menuBtn {
+        display: none;
+    }
+}
