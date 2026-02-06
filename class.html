@@ -1,0 +1,51 @@
+<html lnag="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dynamic Content</title>
+        <sytle>
+            .format , h1 {
+            }
+            hr {
+                width:300px;
+            }
+            .details {
+                display: inline
+            }
+        </sytle>
+    </head>
+    <body>
+        <h1>WDD 131 Students List </h1>
+        <div id="student-list" class="format">
+            <hr>
+            <div class="student">
+        </div>
+    
+        <script>
+            const students = [
+            {
+                last: 'Scott',
+                first:'Esther'
+            },
+            {
+                last:'Kouakou',
+                first:'Christ'
+            },
+            {
+                last:'Young',
+                first:'Joshua'
+            },
+            ]
+            let container = document.guerySelector('#student-container');
+            students.forEach(function(item){
+                let name = document.creatElement('div');
+                name.setAttribute('class','format');
+
+                let html = 
+                `<span class="details"> ${item.first} ${item.last} </span>
+
+            }
+        </script>
+
+
+</html>
