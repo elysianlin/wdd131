@@ -1,4 +1,3 @@
-
 const movies = [
       {
         title: "Spider-Man: Into the Spider-Verse",
@@ -42,9 +41,28 @@ const movies = [
       }
     ];
 
+          
+
+
+const movieList = document.querySelector('#movie-list');
     movies.forEach(movie => {
 
-        // Code for going through each movie and creating content for that movie
-    
+        const article = document.createElement('article');
+        article.className = 'movie';
+
+        let html = `
+                    <h2>${movie.title}</h2>
+                    <img src=${movie.imgSrc} alt=${movie.imgAlt}>
+                    <p><strong>Release Date:</strong>${movie.date}</p>
+                    <p><strong>Recommended Age:</strong> ${movie.ages}</p>
+                    <p><strong>Genre:</strong> ${movie.genre}</p>
+                    <p><strong>Rating:</strong> <span aria-label="${movie.stars.length} out of 5 stars" role="img">${movies.stars}</span></p>
+                    <p id='desc'>${movie.description}</p>
+            `;
+
+        article.innerHTML += html;
+        movieList.appendChild(article);
     });
-          
+        
+
+
