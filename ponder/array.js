@@ -75,4 +75,24 @@ const shortWords = words.filter(function(item){
 
 console.log(shortWords);
 
+const classes = [
+    {name: 'WDD131', credits: 2},
+    {name: 'CSE170', credits: 2},
+    {name: 'ITM455', credits: 4}
+];
+
+let container = document.querySelector('#classes')
+
+classes.forEach(function(item){
+    let name = document.createElement('div');
+
+    let html = 
+        `<span>${item.name}</span>
+        <span>(${item.credits})</span>
+        <hr>`
+    
+    name.innerHTML = html;
+    container.appendChild(name);
+
+})
 
