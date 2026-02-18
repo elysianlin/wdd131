@@ -1,54 +1,31 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('credit-card-form');
+    const cardNumberInput = document.getElementById('CardNumber');
+    const monthInput = document.getElementById('month');
+    const yearInput = document.getElementById('year');
 
-    const cardNumberInput = document.querySelector('input[name="cardNumber"]') || document.querySelector('#creditCardNumber');
-    const monthInput = document.querySelector('input[name="expMonth"]') || document.querySelector('#month');
-    const yearInput = document.querySelector('input[name="expYear"]') || document.querySelector('#year');
-    const sumitBtn = document.querySelector('button[type="submit"]') || document.querySelector('#submitBtn');
-
-    cardNumberInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
-        let formattedValue = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formattedValue += ' ';
-            }
-            formattedValue += value[i];
-        }
-        e.target.value = formattedValue.trim();
+    cardNumberInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+        e.target.value = formattedValue;
     });
 
-    const checkExpiry = () => {
-        const month = parseInt(monthInput.value);
-        const year = parseInt('20' + yearInput.value);
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); 
 
-        if (month && year) {
-            const now = now Date();
-            const expiryDate = new Date(year,month -1);
-            if (expiryDate < now) {
-                displayError('Card has expired');
-                sumitBtn.disabled = true;
-            } else {
-                displayError('');
-                sumitBtn.disabled = false;
-            }
-            return true;
+        const now = new Date();
+        const currentYear = now.getFullYear() % 100;
+        const currentMonth = now.getMonth() + 1;
+
+        const inputMonth = parseInt(monthInput.value, 10);
+        const inputYear = parseInt(yearInput.value, 10);
+
+        if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
+            alert('This credit card has expired. Please use a valid card.');
+            return;
         }
-    };
 
-    const form = document.querySelector('form') || submitGtn.closest('form');
-
-    if (document.querySelector('form')) {
-        document.querySelector('form').onsubmit = (e) => {
-            e.preventDefault();
-            if (checkExpiry()) {
-                alert('card submitted successfully!');
-            }
-        }; 
-    } else {
-        submitBtn.addEventListener('click', function() {
-            if (checkExpiry()) {
-                alert('card submitted successfully!');
-            }
-        });
-    }   
+        alert('Card submitted successfully!');
+        form.reset(); 
+    });
 });
