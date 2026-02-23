@@ -17,18 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentYear = now.getFullYear() % 100;
         const currentMonth = now.getMonth() + 1;
 
-        const inputMonth = parseInt(monthInput.value, 10);
-        const inputYear = parseInt(yearInput.value, 10);
+        const inputMonth = parseInt(monthInput.value, 10) || 0;
+        const inputYear = parseInt(yearInput.value, 10) || 0;
         const cardNumber = cardNumberInput.value.replace(/\s/g, '');
 
-        if (!/^\d{16}$/.test(cardNumber)) {
-            alert('Please enter a valid 16-digit card number.');
-            return;
+        if (cardNumber.length !== 16) {
+            alert('Please enter a valid 16-digit credit card number.');
+            return; 
         }
 
         if (inputMonth < 1 || inputMonth > 12) {
-            alert('Please enter a valid month (1-12).');
-            return;
+            alert('Please enter a valid expiration month (1-12).');
+            return; 
         }
 
         if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
