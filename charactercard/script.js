@@ -3,7 +3,7 @@ const character = {
     class: "Swamp Beast Ciplomat",
     level:5,
     Health: 100,
-    image: "/images/snortleblat.webp",
+    image: "https://andejuli.github.io/wdd131/character_card/snortleblat.webp",
     attack: function() {
         if(this.Health >0) {
             this.Health -= 20;
