@@ -79,9 +79,13 @@ header h1 {
    Main Content
 ========================= */
 main {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
     padding: 40px 20px;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 /* Recipe Card */
@@ -110,12 +114,23 @@ main {
 }
 
 .tag {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
     background-color: #ffe0ec;
-    color: #d63384;
+    color: #68092F;
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
-    width: fit-content;
+    width: fit-content; 
+}
+
+.recipe-content .tags {
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .recipe-content h2 {
@@ -144,9 +159,8 @@ footer {
     margin-top: 40px;
 }
 
-footer p a{
-    color:#d63384;
-    
+footer p a {
+    color: #68092F; 
 }
 
 .social {
