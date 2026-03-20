@@ -177,9 +177,7 @@ footer p a {
     transform: scale(1.2);
 }
 
-/* =========================
-   Responsive (Mobile)
-========================= */
+
 @media (max-width: 768px) {
 
     header {
@@ -197,7 +195,6 @@ footer p a {
         height: 250px;
     }
 
-    /* Hide description on mobile */
     .description {
         display: none;
     }
