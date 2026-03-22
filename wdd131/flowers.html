@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <title>Flowers — More Than Fl0wers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="flowers.css" />
+  <script defer src="main.js"></script>
+  <script defer src="flowers.js"></script>
+  <link rel="icon" href="images/logo.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/ufc8obc.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <button class="top-bar-btn" id="searchToggle" aria-label="Open search">SEARCH</button>
+    <a href="index.html" class="logo">More Than Fl0wers</a>
+    <div class="top-bar-right">
+      <button class="top-bar-btn" aria-label="Account">ACCOUNT</button>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+      </button>
+      <button class="icon-btn cart-btn" aria-label="Cart">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="site-header" id="siteHeader">
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="index.html"   class="nav-link">HOME</a>
+      <a href="flowers.html" class="nav-link active">FLOWERS</a>
+      <a href="booking.html" class="nav-link">BOOKING</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="index.html"   class="nav-link">HOME</a>
+      <a href="flowers.html" class="nav-link active">FLOWERS</a>
+      <a href="booking.html" class="nav-link">BOOKING</a>
+    </div>
+  </header>
+
+  <!-- Search overlay -->
+  <div class="search-overlay" id="searchOverlay" aria-hidden="true">
+    <button class="search-close" id="searchClose" aria-label="Close">✕</button>
+    <input type="text" class="search-input" placeholder="Search flowers…" aria-label="Search" />
+  </div>
+
+  <!-- SHOP PAGE -->
+  <div class="shop-page">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Filters">
+
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span>
+        <span aria-current="page">Flowers</span>
+      </nav>
+
+      <h1 class="shop-title">Flowers</h1>
+      <hr class="filter-hr" />
+
+      <button class="filter-clear" id="filterClear">Clear all</button>
+      <hr class="filter-hr" />
+
+      <!-- PRICE -->
+      <div class="filter-group">
+        <button class="filter-header" aria-expanded="true" aria-controls="fp-price">
+          <span>Price Range</span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-body" id="fp-price">
+          <label class="fcheck"><input type="checkbox" name="price" data-min="0"   data-max="30"  /> <span>Under $30</span></label>
+          <label class="fcheck"><input type="checkbox" name="price" data-min="30"  data-max="60"  /> <span>$30 – $60</span></label>
+          <label class="fcheck"><input type="checkbox" name="price" data-min="60"  data-max="100" /> <span>$60 – $100</span></label>
+          <label class="fcheck"><input type="checkbox" name="price" data-min="100" data-max="999" /> <span>$100+</span></label>
+        </div>
+      </div>
+      <hr class="filter-hr" />
+
+      <!-- CATEGORY -->
+      <div class="filter-group">
+        <button class="filter-header" aria-expanded="true" aria-controls="fp-cat">
+          <span>Category</span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-body" id="fp-cat">
+          <label class="fcheck">
+            <input type="checkbox" name="category" value="bouquet" />
+            <span>Bouquet</span>
+            <em class="fcount" data-cat="bouquet"></em>
+          </label>
+          <label class="fcheck">
+            <input type="checkbox" name="category" value="single" />
+            <span>Single Stem</span>
+            <em class="fcount" data-cat="single"></em>
+          </label>
+          <label class="fcheck">
+            <input type="checkbox" name="category" value="arrangement" />
+            <span>Arrangement</span>
+            <em class="fcount" data-cat="arrangement"></em>
+          </label>
+        </div>
+      </div>
+      <hr class="filter-hr" />
+
+      <!-- COLOR -->
+      <div class="filter-group">
+        <button class="filter-header" aria-expanded="true" aria-controls="fp-color">
+          <span>Color</span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-body" id="fp-color">
+          <!--
+            data-color on each row MUST be lowercase and match the
+            space-separated values in each flower-card's data-color.
+          -->
+          <div class="color-row" data-color="white">
+            <span class="dot" style="background:#fff;border:1.5px solid #D8D4CC;"></span>
+            <span class="dot-label">White</span>
+            <em class="fcount" data-col="white"></em>
+          </div>
+          <div class="color-row" data-color="red">
+            <span class="dot" style="background:#b71a12;"></span>
+            <span class="dot-label">Red</span>
+            <em class="fcount" data-col="red"></em>
+          </div>
+          <div class="color-row" data-color="pink">
+            <span class="dot" style="background:#e66565;"></span>
+            <span class="dot-label">Pink</span>
+            <em class="fcount" data-col="pink"></em>
+          </div>
+          <div class="color-row" data-color="purple">
+            <span class="dot" style="background:#D4B8E0;"></span>
+            <span class="dot-label">Purple</span>
+            <em class="fcount" data-col="purple"></em>
+          </div>
+          <div class="color-row" data-color="green">
+            <span class="dot" style="background:#176e1d;"></span>
+            <span class="dot-label">Green</span>
+            <em class="fcount" data-col="green"></em>
+          </div>
+          <div class="color-row" data-color="yellow">
+            <span class="dot" style="background:#F5C842;"></span>
+            <span class="dot-label">Yellow</span>
+            <em class="fcount" data-col="yellow"></em>
+          </div>
+          <div class="color-row" data-color="orange">
+            <span class="dot" style="background:#ea8e17;"></span>
+            <span class="dot-label">Orange</span>
+            <em class="fcount" data-col="orange"></em>
+          </div>
+          <div class="color-row" data-color="blue">
+            <span class="dot" style="background:#4493c0;"></span>
+            <span class="dot-label">Blue</span>
+            <em class="fcount" data-col="blue"></em>
+          </div>
+          <div class="color-row" data-color="dark">
+            <span class="dot" style="background:#2C2C2C;"></span>
+            <span class="dot-label">Dark</span>
+            <em class="fcount" data-col="dark"></em>
+          </div>
+        </div>
+      </div>
+      <hr class="filter-hr" />
+
+    </aside>
+
+    <!-- MAIN -->
+    <div class="shop-main">
+
+      <div class="shop-toolbar">
+        <p class="result-count" id="resultCount"></p>
+        <div class="toolbar-right">
+          <select class="sort-select" id="sortSelect">
+            <option value="default">Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A → Z</option>
+          </select>
+          <button class="mobile-filter-btn" id="mobileFilterBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+            Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Active chips row -->
+      <div class="chips-row" id="chipsRow"></div>
+
+      <!--
+        FLOWER CARDS
+        data-price  = lowest price integer
+        data-cat    = bouquet | single | arrangement
+        data-color  = space-separated lowercase colour names
+        NO reveal classes — filter engine controls display directly
+      -->
+      <div class="flowers-grid" id="flowersGrid">
+
+        <article class="fcard" data-price="65" data-cat="bouquet" data-color="white yellow">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/best-1.JPG" alt="The Morning Dew" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">The Morning Dew</p>
+            <p class="fcard-price">$65.00 – $98.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="65" data-cat="bouquet" data-color="pink yellow white">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/best-2.JPG" alt="Sun-Kissed Petals" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Sun-Kissed Petals</p>
+            <p class="fcard-price">$65.00 – $90.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="43" data-cat="bouquet" data-color="orange yellow blue">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/best-3.JPG" alt="Luminous Lilies" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Luminous Lilies</p>
+            <p class="fcard-price">$43.00 – $63.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="48" data-cat="single" data-color="pink red">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-4.JPG" alt="Velvet Rose" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Velvet Rose</p>
+            <p class="fcard-price">$48.00 – $78.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="52" data-cat="arrangement" data-color="white blue purple">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-5.JPG" alt="Garden Whisper" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Garden Whisper</p>
+            <p class="fcard-price">$52.00 – $82.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="38" data-cat="single" data-color="red pink">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-6.JPG" alt="Blushing Tulip" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Blushing Tulip</p>
+            <p class="fcard-price">$38.00 – $60.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="55" data-cat="bouquet" data-color="white blue green">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-7.JPG" alt="Ivory Dream" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Ivory Dream</p>
+            <p class="fcard-price">$55.00 – $85.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="44" data-cat="arrangement" data-color="orange white yellow">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-8.JPG" alt="Sage &amp; Bloom" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Sage &amp; Bloom</p>
+            <p class="fcard-price">$44.00 – $72.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="42" data-cat="bouquet" data-color="blue purple">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-9.JPG" alt="Golden Hour" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Golden Hour</p>
+            <p class="fcard-price">$42.00 – $68.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="58" data-cat="bouquet" data-color="yellow white pink">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-10.JPG" alt="Midnight Peony" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Midnight Peony</p>
+            <p class="fcard-price">$58.00 – $92.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="36" data-cat="single" data-color="yellow purple">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-11.JPG" alt="Soft Lavender" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Soft Lavender</p>
+            <p class="fcard-price">$36.00 – $58.00</p>
+          </a>
+        </article>
+
+        <article class="fcard" data-price="46" data-cat="arrangement" data-color="green white">
+          <a href="#" class="fcard-link">
+            <div class="fcard-img-wrap">
+              <img src="images/flower-12.JPG" alt="Wild Meadow" class="fcard-img" onerror="this.parentElement.classList.add('no-img')" />
+              <div class="fcard-overlay"><span>View Details</span></div>
+            </div>
+            <p class="fcard-name">Wild Meadow</p>
+            <p class="fcard-price">$46.00 – $74.00</p>
+          </a>
+        </article>
+
+      </div><!-- /flowers-grid -->
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <p>No flowers match your filters.</p>
+        <button class="filter-clear" id="emptyStateClear">Clear all filters</button>
+      </div>
+
+      <!-- Pagination — JS builds number buttons; only arrow lives in HTML -->
+      <nav class="pagination" id="pagination">
+        <button class="page-btn page-next" id="pageNext" aria-label="Next page">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </nav>
+
+    </div><!-- /shop-main -->
+  </div><!-- /shop-page -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner container">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo"><img src="images/logo-white.png" alt="M0re Than Fl0wers" /></a>
+        <p>Handcrafted yarn flowers<br />made to last a lifetime.</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="flowers.html">Flowers</a></li>
+          <li><a href="booking.html">Booking</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Info</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Follow Us</h4>
+        <div class="social-row">
+          <a href="https://www.instagram.com/m0re.than.flowers/" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="https://www.xiaohongshu.com/user/profile/5db40df20000000001009532" target="_blank" rel="noopener" class="social-btn xhs" aria-label="小红书"><span>小红书</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 More Than Fl0wers · All rights reserved.</p></div>
+  </footer>
+
+</body>
+</html>

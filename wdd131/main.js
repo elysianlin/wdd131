@@ -1,205 +1,342 @@
 /**
- * M0re Than Flowers — main.js
- * Fixes: reveal hidden by default only after JS loads,
- *        search overlay uses display:none toggle,
- *        hamburger, tabs, cart badge, parallax
+ * flowers.js  —  Filter + pagination engine for M0re Than Flowers
+ *
+ * Filter logic:
+ *   Within a group  →  OR  (any tick passes)
+ *   Between groups  →  AND (must pass every active group)
+ *
+ * Pagination: PER_PAGE cards shown at once, JS builds buttons.
+ * No hardcoded page buttons in HTML — only the › arrow is in HTML.
  */
 
-/* ── 1. Mark body as JS-loaded (enables reveal hiding) ─── */
-// This runs immediately — before DOMContentLoaded —
-// so CSS .js-loaded .reveal { opacity: 0 } kicks in early.
-document.documentElement.classList.add('js-loaded');
-// Apply to body once available
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.classList.add('js-loaded');
-});
 
+  /* ─── constants ─────────────────────────────────────── */
+  const PER_PAGE = 6;
 
-/* ── 2. Scroll Reveal ──────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const els = document.querySelectorAll('.reveal');
-  if (!els.length) return;
+  /* ─── state ─────────────────────────────────────────── */
+  const S = {
+    price:    [],   // [{ min, max }, …]
+    category: [],   // ['bouquet', …]
+    color:    [],   // ['pink', …]
+    sort:     'default',
+    page:     1,
+  };
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          io.unobserve(e.target);
+  /* ─── DOM ────────────────────────────────────────────── */
+  const grid    = document.getElementById('flowersGrid');
+  const countEl = document.getElementById('resultCount');
+  const chipsEl = document.getElementById('activeFilters');
+  const emptyEl = document.getElementById('emptyState');
+  const pagNav  = document.getElementById('pagination');
+  const sortEl  = document.getElementById('sortSelect');
+  const nextBtn = document.getElementById('pageNext');
+
+  /* Snapshot every card once at boot — order = original HTML order */
+  const ALL = Array.from(grid.querySelectorAll('.flower-card'));
+
+  /* ─── card data readers ──────────────────────────────── */
+  const cardPrice    = (c) => parseFloat(c.dataset.price    || 0);
+  const cardCat      = (c) => (c.dataset.category || '').trim();
+  const cardColors   = (c) => (c.dataset.color    || '').split(/\s+/).filter(Boolean);
+  const cardName     = (c) => (c.querySelector('.flower-name')?.textContent || '').trim();
+
+  /* ─── filter predicate ───────────────────────────────── */
+  const passes = (card) => {
+    if (S.price.length) {
+      const p = cardPrice(card);
+      if (!S.price.some(({ min, max }) => p >= min && p <= max)) return false;
+    }
+    if (S.category.length) {
+      if (!S.category.includes(cardCat(card))) return false;
+    }
+    if (S.color.length) {
+      const cc = cardColors(card);
+      if (!S.color.some((c) => cc.includes(c))) return false;
+    }
+    return true;
+  };
+
+  /* ─── sort ───────────────────────────────────────────── */
+  const applySort = (arr) => {
+    const a = [...arr];
+    if (S.sort === 'price-asc')  return a.sort((x, y) => cardPrice(x) - cardPrice(y));
+    if (S.sort === 'price-desc') return a.sort((x, y) => cardPrice(y) - cardPrice(x));
+    if (S.sort === 'name-asc')   return a.sort((x, y) => cardName(x).localeCompare(cardName(y)));
+    return a;
+  };
+
+  /* ─────────────────────────────────────────────────────
+     RENDER  —  the single source of truth
+     Called every time any filter/sort/page changes.
+  ───────────────────────────────────────────────────── */
+  const render = () => {
+    /* 1. Work out which cards match and in what order */
+    const matched   = applySort(ALL.filter(passes));
+    const total     = matched.length;
+    const pageStart = (S.page - 1) * PER_PAGE;
+    const pageEnd   = pageStart + PER_PAGE;
+    const visible   = matched.slice(pageStart, pageEnd);
+
+    /* 2. Hide every card — only touch the class, not inline styles */
+    ALL.forEach((c) => c.classList.add('card-hidden'));
+
+    /* 3. Show and force-visible the cards for this page */
+    visible.forEach((c) => {
+      c.classList.remove('card-hidden');
+      c.style.opacity    = '1';
+      c.style.transform  = 'translateY(0)';
+      c.style.transition = 'none';
+    });
+
+    /* 4. Reorder visible cards at the bottom of the grid (for sort) */
+    visible.forEach((c) => grid.appendChild(c));
+
+    /* 5. Result count text */
+    countEl.textContent = total === 0
+      ? 'No results'
+      : `Showing ${pageStart + 1}–${Math.min(pageEnd, total)} of ${total} results`;
+
+    /* 6. Empty state */
+    emptyEl.hidden = total > 0;
+    pagNav.hidden  = total === 0;
+
+    /* 7. Rebuild pagination buttons */
+    renderPagination(total);
+
+    /* 8. Rebuild active-filter chips */
+    renderChips();
+
+    /* 9. Update count badges */
+    renderCounts();
+  };
+
+  /* ─────────────────────────────────────────────────────
+     PAGINATION
+  ───────────────────────────────────────────────────── */
+  const renderPagination = (total) => {
+    const totalPages = Math.max(Math.ceil(total / PER_PAGE), 1);
+
+    /* Remove old numbered buttons (class page-btn but not page-next) */
+    pagNav.querySelectorAll('.page-btn:not(.page-next)').forEach((b) => b.remove());
+
+    /* Add numbered buttons before the › arrow */
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className   = 'page-btn' + (i === S.page ? ' active' : '');
+      btn.textContent = i;
+      if (i === S.page) btn.setAttribute('aria-current', 'page');
+
+      btn.addEventListener('click', () => {
+        S.page = i;
+        render();
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      pagNav.insertBefore(btn, nextBtn);
+    }
+
+    /* Update › arrow */
+    if (nextBtn) {
+      nextBtn.disabled = S.page >= totalPages;
+      nextBtn.onclick  = () => {
+        if (S.page < totalPages) {
+          S.page++;
+          render();
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      });
-    },
-    { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-  );
-
-  els.forEach((el) => io.observe(el));
-});
-
-
-/* ── 3. Sticky nav shadow on scroll ───────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const header = document.getElementById('siteHeader');
-  if (!header) return;
-
-  window.addEventListener('scroll', () => {
-    header.style.boxShadow = window.scrollY > 8
-      ? '0 2px 16px rgba(44,44,44,0.07)'
-      : 'none';
-  }, { passive: true });
-});
-
-
-/* ── 4. Mobile hamburger ───────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('hamburger');
-  const nav = document.getElementById('mobileNav');
-  if (!btn || !nav) return;
-
-  const close = () => {
-    nav.classList.remove('open');
-    btn.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
-    nav.setAttribute('aria-hidden', 'true');
+      };
+    }
   };
 
-  btn.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
-    btn.classList.toggle('open', isOpen);
-    btn.setAttribute('aria-expanded', String(isOpen));
-    nav.setAttribute('aria-hidden', String(!isOpen));
-  });
+  /* ─────────────────────────────────────────────────────
+     ACTIVE FILTER CHIPS  (removable tags above the grid)
+  ───────────────────────────────────────────────────── */
+  const cap    = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const plabel = ({ min, max }) => max >= 999 ? `$${min}+` : `$${min}–$${max}`;
 
-  nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+  const renderChips = () => {
+    chipsEl.innerHTML = '';
 
-  document.addEventListener('click', (e) => {
-    if (nav.classList.contains('open') &&
-        !nav.contains(e.target) &&
-        !btn.contains(e.target)) close();
-  });
-});
+    const addChip = (label, onRemove) => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-chip';
+      btn.innerHTML = `${label} <span aria-hidden="true">×</span>`;
+      btn.setAttribute('aria-label', `Remove filter: ${label}`);
+      btn.addEventListener('click', () => { onRemove(); S.page = 1; render(); });
+      chipsEl.appendChild(btn);
+    };
 
+    S.price.forEach(({ min, max }) =>
+      addChip(plabel({ min, max }), () => {
+        S.price = S.price.filter((r) => !(r.min === min && r.max === max));
+        document.querySelectorAll('input[name="price"]').forEach((cb) => {
+          if (+cb.dataset.min === min && +cb.dataset.max === max) cb.checked = false;
+        });
+      })
+    );
 
-/* ── 5. Search overlay ─────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle  = document.getElementById('searchToggle');
-  const overlay = document.getElementById('searchOverlay');
-  const closeBtn = document.getElementById('searchClose');
-  const input   = overlay?.querySelector('.search-input');
-  if (!toggle || !overlay) return;
+    S.category.forEach((cat) =>
+      addChip(cap(cat), () => {
+        S.category = S.category.filter((c) => c !== cat);
+        const cb = document.querySelector(`input[name="category"][value="${cat}"]`);
+        if (cb) cb.checked = false;
+      })
+    );
 
-  const open = () => {
-    overlay.classList.add('open');
-    overlay.setAttribute('aria-hidden', 'false');
-    setTimeout(() => input?.focus(), 50);
+    S.color.forEach((col) =>
+      addChip(cap(col), () => {
+        S.color = S.color.filter((c) => c !== col);
+        const sw = document.querySelector(`.color-swatch[data-color="${col}"]`);
+        if (sw) { sw.classList.remove('active'); sw.setAttribute('aria-pressed', 'false'); }
+      })
+    );
+
+    chipsEl.style.display = chipsEl.children.length ? 'flex' : 'none';
   };
-  const close = () => {
-    overlay.classList.remove('open');
-    overlay.setAttribute('aria-hidden', 'true');
+
+  /* ─────────────────────────────────────────────────────
+     LIVE COUNT BADGES
+     Each group's counts are calculated while temporarily
+     ignoring that group's own filter — shows realistic
+     "how many are available" numbers.
+  ───────────────────────────────────────────────────── */
+  const renderCounts = () => {
+    /* Category counts — run filter with category reset */
+    const prevCat = S.category;
+    S.category = [];
+    const forCat = ALL.filter(passes);
+    S.category = prevCat;
+
+    document.querySelectorAll('.filter-count[data-category]').forEach((badge) => {
+      const n = forCat.filter((c) => cardCat(c) === badge.dataset.category).length;
+      badge.textContent  = n;
+      badge.style.opacity = n === 0 ? '0.35' : '1';
+    });
+
+    /* Color counts — run filter with color reset */
+    const prevCol = S.color;
+    S.color = [];
+    const forCol = ALL.filter(passes);
+    S.color = prevCol;
+
+    document.querySelectorAll('.filter-count[data-color]').forEach((badge) => {
+      const n = forCol.filter((c) => cardColors(c).includes(badge.dataset.color)).length;
+      badge.textContent  = n;
+      badge.style.opacity = n === 0 ? '0.35' : '1';
+    });
   };
 
-  toggle.addEventListener('click', open);
-  closeBtn?.addEventListener('click', close);
-
-  // Close on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
-  });
-
-  // Close on clicking the overlay background itself
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) close();
-  });
-});
-
-
-/* ── 6. Tab switcher ───────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const tabBar = document.querySelector('.tab-bar');
-  if (!tabBar) return;
-
-  const tabs   = tabBar.querySelectorAll('.tab');
-  const panels = document.querySelectorAll('.tab-panel');
-
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      tabs.forEach((t) => {
-        t.classList.toggle('active', t === tab);
-        t.setAttribute('aria-selected', String(t === tab));
-      });
-
-      panels.forEach((panel) => {
-        const match = panel.id === `panel-${tab.dataset.tab}`;
-        panel.classList.toggle('active', match);
-        match ? panel.removeAttribute('hidden') : panel.setAttribute('hidden', '');
-
-        if (match) {
-          panel.querySelectorAll('.reveal:not(.visible)')
-               .forEach((el) => el.classList.add('visible'));
-        }
-      });
+  /* ─────────────────────────────────────────────────────
+     ACCORDION  (expand / collapse filter groups)
+  ───────────────────────────────────────────────────── */
+  document.querySelectorAll('.filter-group-header').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      const body = document.getElementById(btn.getAttribute('aria-controls'));
+      if (body) body.classList.toggle('collapsed', open);
     });
   });
-});
 
+  /* ─────────────────────────────────────────────────────
+     PRICE CHECKBOXES
+  ───────────────────────────────────────────────────── */
+  document.querySelectorAll('input[name="price"]').forEach((cb) => {
+    cb.addEventListener('change', () => {
+      const min = +cb.dataset.min, max = +cb.dataset.max;
+      if (cb.checked) {
+        S.price.push({ min, max });
+      } else {
+        S.price = S.price.filter((r) => !(r.min === min && r.max === max));
+      }
+      S.page = 1;
+      render();
+    });
+  });
 
-/* ── 7. Cart badge ─────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const badge = document.querySelector('.cart-badge');
-  if (!badge) return;
+  /* ─────────────────────────────────────────────────────
+     CATEGORY CHECKBOXES
+  ───────────────────────────────────────────────────── */
+  document.querySelectorAll('input[name="category"]').forEach((cb) => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) {
+        if (!S.category.includes(cb.value)) S.category.push(cb.value);
+      } else {
+        S.category = S.category.filter((v) => v !== cb.value);
+      }
+      S.page = 1;
+      render();
+    });
+  });
 
-  let count = parseInt(sessionStorage.getItem('cartCount') || '0', 10);
+  /* ─────────────────────────────────────────────────────
+     COLOR SWATCHES  (whole row is clickable)
+  ───────────────────────────────────────────────────── */
+  document.querySelectorAll('.swatch-item').forEach((row) => {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+      const sw  = row.querySelector('.color-swatch');
+      if (!sw) return;
+      const col    = sw.dataset.color;
+      const active = sw.classList.toggle('active');
+      sw.setAttribute('aria-pressed', String(active));
 
-  const update = () => {
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
+      if (active) {
+        if (!S.color.includes(col)) S.color.push(col);
+      } else {
+        S.color = S.color.filter((c) => c !== col);
+      }
+      S.page = 1;
+      render();
+    });
+  });
+
+  /* ─────────────────────────────────────────────────────
+     SORT
+  ───────────────────────────────────────────────────── */
+  sortEl?.addEventListener('change', () => {
+    S.sort  = sortEl.value;
+    S.page  = 1;
+    render();
+  });
+
+  /* ─────────────────────────────────────────────────────
+     CLEAR ALL
+  ───────────────────────────────────────────────────── */
+  const clearAll = () => {
+    S.price = []; S.category = []; S.color = [];
+    S.sort  = 'default'; S.page = 1;
+    document.querySelectorAll('.filter-check input').forEach((cb) => cb.checked = false);
+    document.querySelectorAll('.color-swatch').forEach((sw) => {
+      sw.classList.remove('active');
+      sw.setAttribute('aria-pressed', 'false');
+    });
+    if (sortEl) sortEl.value = 'default';
+    render();
   };
-  update();
 
-  // Pulse animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes badgePop {
-      0%   { transform: scale(1); }
-      45%  { transform: scale(1.5); }
-      100% { transform: scale(1); }
-    }
-    .cart-badge.pop { animation: badgePop 0.35s ease; }
-  `;
-  document.head.appendChild(style);
+  document.getElementById('filterClear')?.addEventListener('click', clearAll);
+  document.getElementById('emptyStateClear')?.addEventListener('click', clearAll);
 
-  window.addToCart = (qty = 1) => {
-    count += qty;
-    sessionStorage.setItem('cartCount', count);
-    update();
-    badge.classList.remove('pop');
-    void badge.offsetWidth;
-    badge.classList.add('pop');
-  };
-});
+  /* ─────────────────────────────────────────────────────
+     MOBILE SIDEBAR DRAWER
+  ───────────────────────────────────────────────────── */
+  const sidebar   = document.getElementById('sidebar');
+  const mobileBtn = document.getElementById('mobileFilterBtn');
+  const bg        = Object.assign(document.createElement('div'),
+                      { className: 'sidebar-overlay' });
+  document.body.appendChild(bg);
 
+  const open  = () => { sidebar?.classList.add('open');    bg.classList.add('active');    document.body.style.overflow = 'hidden'; };
+  const close = () => { sidebar?.classList.remove('open'); bg.classList.remove('active'); document.body.style.overflow = '';       };
 
-/* ── 8. Hero slide counter rotation ───────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const countEl = document.querySelector('.hero-count');
-  if (!countEl) return;
+  mobileBtn?.addEventListener('click', open);
+  bg.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-  let current = 1;
-  const total = 7;
-
-  setInterval(() => {
-    current = current < total ? current + 1 : 1;
-    countEl.textContent = `${current} / ${total}`;
-  }, 4000);
-});
-
-
-/* ── 9. Subtle hero parallax ───────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  const img = document.querySelector('.hero-img');
-  if (!img) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  window.addEventListener('scroll', () => {
-    img.style.transform = `translateY(${window.scrollY * 0.1}px)`;
-  }, { passive: true });
+  /* ─────────────────────────────────────────────────────
+     BOOT  —  run once on page load
+  ───────────────────────────────────────────────────── */
+  render();
 });
