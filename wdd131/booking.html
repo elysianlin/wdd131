@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <title>Booking — More Than Fl0wers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="booking.css" />
+  <script defer src="main.js"></script>
+  <script defer src="booking.js"></script>
+  <link rel="icon" href="images/logo.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/ufc8obc.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="price-badge" id="priceBadge">
+    <span class="price-badge-label">Estimated</span>
+    <span class="price-badge-amount" id="priceBadgeAmt">$0.00</span>
+  </div>
+
+  <div class="top-bar">
+    <button class="top-bar-btn" id="searchToggle" aria-label="Open search">SEARCH</button>
+    <a href="index.html" class="logo">More Than Fl0wers</a>
+    <div class="top-bar-right">
+      <button class="top-bar-btn" aria-label="Account">ACCOUNT</button>
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z"/></svg>
+      </button>
+      <button class="icon-btn cart-btn" aria-label="Cart">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="index.html"   class="nav-link">HOME</a>
+      <a href="flowers.html" class="nav-link">FLOWERS</a>
+      <a href="booking.html" class="nav-link active">BOOKING</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="index.html"   class="nav-link">HOME</a>
+      <a href="flowers.html" class="nav-link">FLOWERS</a>
+      <a href="booking.html" class="nav-link active">BOOKING</a>
+    </div>
+  </header>
+
+  <div class="search-overlay" id="searchOverlay" aria-hidden="true">
+    <button class="search-close" id="searchClose" aria-label="Close">✕</button>
+    <input type="text" class="search-input" placeholder="Search flowers…" aria-label="Search" />
+  </div>
+
+  <main class="booking-main">
+    <div class="booking-wrap">
+
+      <nav class="progress-bar" aria-label="Booking steps">
+        <div class="prog-line"></div>
+        <button class="prog-step active" data-step="1"><span class="prog-num">1</span><span class="prog-label">Order Type</span></button>
+        <button class="prog-step"        data-step="2"><span class="prog-num">2</span><span class="prog-label">Customise</span></button>
+        <button class="prog-step"        data-step="3"><span class="prog-num">3</span><span class="prog-label">Requirements</span></button>
+        <button class="prog-step"        data-step="4"><span class="prog-num">4</span><span class="prog-label">Checkout</span></button>
+      </nav>
+
+      <!-- STEP 1 -->
+      <section class="bstep" id="step1">
+        <h1 class="bstep-title">How would you like your flowers?</h1>
+        <div class="order-type-grid">
+
+          <label class="ot-card" data-value="custom">
+            <input type="radio" name="orderType" value="custom" hidden />
+            <div class="ot-img"><img src="images/custom.jpg" alt="" onerror="this.style.display='none'" /><div class="ot-img-placeholder"></div></div>
+            <div class="ot-body"><p class="ot-name">Fully<br/>Customized</p><p class="ot-sub">from scratch<br/>Build your bouquet</p></div>
+            <span class="ot-check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+          </label>
+
+          <label class="ot-card" data-value="template">
+            <input type="radio" name="orderType" value="template" hidden />
+            <div class="ot-img"><img src="images/flower-4.jpg" alt="" onerror="this.style.display='none'" /><div class="ot-img-placeholder"></div></div>
+            <div class="ot-body"><p class="ot-name">Shop<br/>Templates</p><p class="ot-sub">curated designs<br/>Pick from our</p></div>
+            <span class="ot-check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+          </label>
+
+          <label class="ot-card" data-value="surprise">
+            <input type="radio" name="orderType" value="surprise" hidden />
+            <div class="ot-img"><img src="images/surprise.png" alt="" onerror="this.style.display='none'" /><div class="ot-img-placeholder"><span class="surprise-qmark">?</span></div></div>
+            <div class="ot-body"><p class="ot-name">Surprise<br/>Me!</p><p class="ot-sub">something magical<br/>Let us create</p></div>
+            <span class="ot-check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+          </label>
+
+        </div>
+        <p class="bstep-hint">Your next step will change based on your selection above.</p>
+        <div class="bstep-nav"><div></div><button class="bbtn bbtn-primary" id="step1Next">Next Step →</button></div>
+      </section>
+
+      <!-- STEP 2A — FULLY CUSTOMIZED -->
+      <section class="bstep" id="step2custom" style="display:none">
+        <h1 class="bstep-title">Fully Customized</h1>
+        <p class="bstep-sub">Build your perfect bouquet step by step</p>
+
+        <div class="bsection">
+          <h2 class="bsection-title">Select Main Flowers</h2>
+          <p class="bsection-hint">Choose 1–3 main flowers · Click to set colour &amp; quantity</p>
+          <div class="addon-pick-grid">
+
+            <div class="apick" data-value="rose" data-price="4.50"
+              data-colors="Red:#e63030|Dark Red:#8b0000|Pink:#f4a0a0|Hot Pink:#ff69b4|White:#ffffff|Blush:#F9D5D3|Cream:#FFF5E1|Yellow:#F5C842|Peach:#FFCBA4|Coral:#FF6B6B|Lavender:#b07ed4|Orange:#ea8e17|Bicolor Pink-White:#f9d5e5">
+              <div class="apick-img"><img src="images/rose.png" alt="Rose" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Rose</span>
+              <span class="apick-price">$4.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="tulip" data-price="3.50"
+              data-colors="Red:#e63030|Pink:#f4a0a0|White:#ffffff|Yellow:#F5C842|Purple:#b07ed4|Orange:#ea8e17|Peach:#FFCBA4|Black:#2C2C2C|Bicolor Red-Yellow:#f5a623">
+              <div class="apick-img"><img src="images/tulip.jpg" alt="Tulip" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Tulip</span>
+              <span class="apick-price">$3.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="lily" data-price="5.00"
+              data-colors="White:#ffffff|Pink:#f4a0a0|Orange:#ea8e17|Yellow:#F5C842|Peach:#FFCBA4|Purple:#b07ed4|Red:#e63030|Tiger Orange:#e87722">
+              <div class="apick-img"><img src="images/lily.jpg" alt="Lily" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Lily</span>
+              <span class="apick-price">$5.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="peony" data-price="6.50"
+              data-colors="Pink:#f4a0a0|Hot Pink:#ff69b4|White:#ffffff|Blush:#F9D5D3|Coral:#FF6B6B|Red:#e63030|Peach:#FFCBA4|Magenta:#d63384|Burgundy:#800020">
+              <div class="apick-img"><img src="images/Peony.jpg" alt="Peony" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Peony</span>
+              <span class="apick-price">$6.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="sunflower" data-price="3.00"
+              data-colors="Bright Yellow:#F5C842|Golden Yellow:#FFB800|Orange:#ea8e17|Cream:#FFF5E1|Pale Yellow:#fffacd|Brown Center:#c68642">
+              <div class="apick-img"><img src="images/sunflower.png" alt="Sunflower" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Sunflower</span>
+              <span class="apick-price">$3.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="orchid" data-price="8.00"
+              data-colors="White:#ffffff|Purple:#b07ed4|Deep Purple:#5c0f8b|Pink:#f4a0a0|Yellow:#F5C842|Peach:#FFCBA4|Green:#7DC85A|Blue:#4493c0|Spotted:#d4a5c9">
+              <div class="apick-img"><img src="images/orchid.jpg" alt="Orchid" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Orchid</span>
+              <span class="apick-price">$8.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="carnation" data-price="6.00"
+              data-colors="Red:#e63030|Pink:#f4a0a0|White:#ffffff|Purple:#b07ed4|Yellow:#F5C842|Peach:#FFCBA4|Coral:#FF6B6B|Burgundy:#800020|Bicolor:#f9a8d4|Green:#7DC85A">
+              <div class="apick-img"><img src="images/Carnation.jpg" alt="Carnation" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Carnation</span>
+              <span class="apick-price">$6.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="lily-of-the-valley" data-price="3.00"
+              data-colors="White:#ffffff|Pale Pink:#fce4ec|Blush:#F9D5D3">
+              <div class="apick-img"><img src="images/Lily of the Valley.jpg" alt="Lily of the Valley" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Lily of the Valley</span>
+              <span class="apick-price">$3.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="hydrangea" data-price="10.00"
+              data-colors="Blue:#4493c0|Periwinkle:#9b8ec4|Pink:#f4a0a0|White:#ffffff|Purple:#b07ed4|Green:#7DC85A|Blush:#F9D5D3|Burgundy:#800020|Sky Blue:#87CEEB">
+              <div class="apick-img"><img src="images/hydrangeas.jpg" alt="Hydrangea" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Hydrangea</span>
+              <span class="apick-price">$10.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="calla-lily" data-price="5.50"
+              data-colors="White:#ffffff|Yellow:#F5C842|Pink:#f4a0a0|Purple:#b07ed4|Orange:#ea8e17|Black:#2C2C2C|Peach:#FFCBA4|Champagne:#f7e7ce">
+              <div class="apick-img"><img src="images/Calla lily.jpg" alt="Calla Lily" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Calla Lily</span>
+              <span class="apick-price">$5.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="morning-glory" data-price="5.50"
+              data-colors="Purple:#b07ed4|Blue:#4493c0|Pink:#f4a0a0|White:#ffffff|Magenta:#d63384|Bicolor Blue-White:#b3d9f5">
+              <div class="apick-img"><img src="images/Morning Glory.jpg" alt="Morning Glory" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Morning Glory</span>
+              <span class="apick-price">$5.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="sakura" data-price="7.50"
+              data-colors="Pale Pink:#fce4ec|Pink:#f4a0a0|Deep Pink:#ff69b4|White:#ffffff|Blush:#F9D5D3">
+              <div class="apick-img"><img src="images/sakura.jpg" alt="Sakura" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Sakura</span>
+              <span class="apick-price">$7.50 / stem</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Filler Flowers -->
+        <div class="bsection">
+          <h2 class="bsection-title">Select Filler Flowers</h2>
+          <p class="bsection-hint">Click to choose colour &amp; quantity · Each variety adds to your total</p>
+          <div class="addon-pick-grid">
+
+            <div class="apick" data-value="babys-breath" data-type="filler" data-price="1.20"
+              data-colors="White:#ffffff|Blush:#F9D5D3|Pink:#f4a0a0|Lilac:#D4B8E0|Purple:#b07ed4">
+              <div class="apick-img"><img src="images/babybreath.jpg" alt="Baby's Breath" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Baby's Breath</span>
+              <span class="apick-price">$1.20 / stem</span>
+            </div>
+
+            <div class="apick" data-value="plum-flower" data-type="filler" data-price="3.50"
+              data-colors="White:#ffffff|Pink:#f4a0a0|Hot Pink:#ff69b4|Red:#e63030|Purple:#b07ed4">
+              <div class="apick-img"><img src="images/waxflower.jpg" alt="Plum Flower" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Plum Flower</span>
+              <span class="apick-price">$3.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="statice" data-type="filler" data-price="2.00"
+              data-colors="White:#ffffff|Lilac:#D4B8E0|Blue:#4493c0|Pink:#f4a0a0|Yellow:#F5C842|Purple:#b07ed4|Peach:#FFCBA4">
+              <div class="apick-img"><img src="images/Statice.jpg" alt="Statice" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Statice</span>
+              <span class="apick-price">$2.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="chamomile" data-type="filler" data-price="1.30"
+              data-colors="White:#ffffff|Yellow:#F5C842|Cream:#FFF5E1">
+              <div class="apick-img"><img src="images/Chamomile.jpg" alt="Chamomile" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Chamomile</span>
+              <span class="apick-price">$1.30 / stem</span>
+            </div>
+
+            <div class="apick" data-value="daisy" data-type="filler" data-price="2.30"
+              data-colors="White:#ffffff|Yellow:#F5C842|Pink:#f4a0a0|Peach:#FFCBA4|Cream:#FFF5E1|Lavender:#b07ed4">
+              <div class="apick-img"><img src="images/daisy.jpg" alt="Daisy" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Daisy</span>
+              <span class="apick-price">$2.30 / stem</span>
+            </div>
+
+            <div class="apick" data-value="freesia" data-type="filler" data-price="1.50"
+              data-colors="White:#ffffff|Yellow:#F5C842|Pink:#f4a0a0|Purple:#b07ed4|Orange:#ea8e17|Red:#e63030|Peach:#FFCBA4">
+              <div class="apick-img"><img src="images/Freesia.jpg" alt="Freesia" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Freesia</span>
+              <span class="apick-price">$1.50 / stem</span>
+            </div>
+
+            <div class="apick" data-value="forget-me-not" data-type="filler" data-price="2.30"
+              data-colors="Blue:#4493c0|Sky Blue:#87CEEB|Pink:#f4a0a0|White:#ffffff|Lilac:#D4B8E0">
+              <div class="apick-img"><img src="images/forgetmenot.jpg" alt="Forget Me Not" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Forget Me Not</span>
+              <span class="apick-price">$2.30 / stem</span>
+            </div>
+
+            <div class="apick" data-value="lavender" data-type="filler" data-price="1.00"
+              data-colors="Purple:#b07ed4|Deep Purple:#5c0f8b|Lavender:#D4B8E0|White:#ffffff|Pink:#f4a0a0">
+              <div class="apick-img"><img src="images/Lavender.jpg" alt="Lavender" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Lavender</span>
+              <span class="apick-price">$1.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="puff-flower" data-type="filler" data-price="1.00"
+              data-colors="White:#ffffff|Cream:#FFF5E1|Blush:#F9D5D3|Pink:#f4a0a0|Yellow:#F5C842">
+              <div class="apick-img"><img src="images/Puff flower.jpg" alt="Puff Flower" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Puff Flower</span>
+              <span class="apick-price">$1.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="strawberry-flower" data-type="filler" data-price="4.00"
+              data-colors="White:#ffffff|Pale Pink:#fce4ec|Cream:#FFF5E1">
+              <div class="apick-img"><img src="images/strawberry.jpg" alt="Strawberry Flower" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Strawberry Flower</span>
+              <span class="apick-price">$4.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="narcissus" data-type="filler" data-price="3.00"
+              data-colors="White:#ffffff|Yellow:#F5C842|Cream:#FFF5E1|Bicolor White-Yellow:#fffde7">
+              <div class="apick-img"><img src="images/Narcissus.jpg" alt="Narcissus" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Narcissus</span>
+              <span class="apick-price">$3.00 / stem</span>
+            </div>
+
+            <div class="apick" data-value="bell-shape-flower" data-type="filler" data-price="3.50"
+              data-colors="White:#ffffff|Pink:#f4a0a0|Purple:#b07ed4|Blue:#4493c0|Cream:#FFF5E1">
+              <div class="apick-img"><img src="images/bellshape.jpg" alt="Bell-Shape Flower" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Bell-Shape Flower</span>
+              <span class="apick-price">$3.50 / stem</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Foliage -->
+        <div class="bsection">
+          <h2 class="bsection-title">Select Foliage</h2>
+          <p class="bsection-hint">Click to choose colour &amp; quantity</p>
+          <div class="addon-pick-grid">
+
+            <div class="apick" data-value="snowwillow" data-type="foliage" data-price="2.00"
+              data-colors="Silver Green:#b0b8b1|Pale Green:#c8d8c9|White:#ffffff">
+              <div class="apick-img"><img src="images/Snowwillow leaves.jpg" alt="Snowwillow Leaves" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Snowwillow Leaves</span>
+              <span class="apick-price">$2.00 / sprig</span>
+            </div>
+
+            <div class="apick" data-value="eucalyptus" data-type="foliage" data-price="1.80"
+              data-colors="Green:#176e1d|Sage:#C8D8C9|Silver:#b0b8b1|Blue-Green:#5B8E8E|Dusty Green:#7a9e7e">
+              <div class="apick-img"><img src="images/Eucalyptus.jpg" alt="Eucalyptus" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Eucalyptus</span>
+              <span class="apick-price">$1.80 / sprig</span>
+            </div>
+
+            <div class="apick" data-value="cymbidium-leaf" data-type="foliage" data-price="1.20"
+              data-colors="Green:#176e1d|Dark Green:#1a3d1a|Light Green:#7DC85A|Variegated:#c8d48a">
+              <div class="apick-img"><img src="images/Cymbidium Leaf.jpg" alt="Cymbidium Leaf" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Cymbidium Leaf</span>
+              <span class="apick-price">$1.20 / sprig</span>
+            </div>
+
+            <div class="apick" data-value="four-season-leaf" data-type="foliage" data-price="1.50"
+              data-colors="Green:#176e1d|Sage:#C8D8C9|Dark Green:#1a3d1a|Burgundy Red:#800020">
+              <div class="apick-img"><img src="images/fourseasonleaf.jpg" alt="Four Season Leaf" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Four Season Leaf</span>
+              <span class="apick-price">$1.50 / sprig</span>
+            </div>
+
+            <div class="apick" data-value="lucky-bamboo" data-type="foliage" data-price="1.00"
+              data-colors="Green:#176e1d|Dark Green:#1a3d1a|Yellow-Green:#c8d48a">
+              <div class="apick-img"><img src="images/ Lucky Bamboo.jpg" alt="Lucky Bamboo" onerror="this.style.display='none'" /><div class="apick-placeholder"></div></div>
+              <span class="apick-label">Lucky Bamboo</span>
+              <span class="apick-price">$1.00 / sprig</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Purpose -->
+        <div class="bsection">
+          <h2 class="bsection-title">Purpose of Flowers</h2>
+          <div class="radio-grid">
+            <label class="bradio"><input type="radio" name="purpose" value="gift" />        <span>Gift</span></label>
+            <label class="bradio"><input type="radio" name="purpose" value="wedding" />     <span>Wedding</span></label>
+            <label class="bradio"><input type="radio" name="purpose" value="birthday" />    <span>Birthday</span></label>
+            <label class="bradio"><input type="radio" name="purpose" value="anniversary" /> <span>Anniversary</span></label>
+            <label class="bradio"><input type="radio" name="purpose" value="just-because" /><span>Just Because</span></label>
+            <label class="bradio"><input type="radio" name="purpose" value="sympathy" />    <span>Sympathy</span></label>
+          </div>
+        </div>
+
+        <div class="bstep-nav">
+          <button class="bbtn bbtn-ghost" data-back="step1">← Back</button>
+          <button class="bbtn bbtn-primary" data-next="step3">Next Step →</button>
+        </div>
+      </section>
+
+      <!-- STEP 2B — SHOP TEMPLATES -->
+      <section class="bstep" id="step2template" style="display:none">
+        <h1 class="bstep-title">Shop Templates</h1>
+        <p class="bstep-sub">Pick a design, then choose your color theme</p>
+        <div class="bsection">
+          <h2 class="bsection-title">Choose a Template</h2>
+          <div class="template-grid">
+            <label class="tcard" data-price="55"><input type="radio" name="template" value="romantic" hidden /><div class="tcard-img"><img src="images/best-1.JPG" alt="Romantic" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Romantic</p><p class="tcard-sub">Rose &amp; Peony</p><p class="tcard-price-tag">from $55</p></label>
+            <label class="tcard" data-price="45"><input type="radio" name="template" value="garden-fresh" hidden /><div class="tcard-img"><img src="images/best-2.JPG" alt="Garden Fresh" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Garden Fresh</p><p class="tcard-sub">Wildflower Mix</p><p class="tcard-price-tag">from $45</p></label>
+            <label class="tcard" data-price="35"><input type="radio" name="template" value="minimalist" hidden /><div class="tcard-img"><img src="images/best-3.JPG" alt="Minimalist" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Minimalist</p><p class="tcard-sub">Single Stem</p><p class="tcard-price-tag">from $35</p></label>
+            <label class="tcard" data-price="65"><input type="radio" name="template" value="lush-full" hidden /><div class="tcard-img"><img src="images/flower-7.JPG" alt="Lush Full" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Lush &amp; Full</p><p class="tcard-sub">Tropical Blend</p><p class="tcard-price-tag">from $65</p></label>
+            <label class="tcard" data-price="48"><input type="radio" name="template" value="pastel-dream" hidden /><div class="tcard-img"><img src="images/flower-10.JPG" alt="Pastel Dream" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Pastel Dream</p><p class="tcard-sub">Soft Tones</p><p class="tcard-price-tag">from $48</p></label>
+            <label class="tcard" data-price="58"><input type="radio" name="template" value="bold-statement" hidden /><div class="tcard-img"><img src="images/flower-11.JPG" alt="Bold Statement" onerror="this.style.display='none'" /><div class="tcard-placeholder"></div></div><p class="tcard-name">Bold Statement</p><p class="tcard-sub">Vibrant Burst</p><p class="tcard-price-tag">from $58</p></label>
+          </div>
+        </div>
+        <div class="bsection">
+          <h2 class="bsection-title">Select Color Theme</h2>
+          <div class="theme-row">
+            <label class="theme-pill" style="--tc:#F9D5D3;--ttc:#2C2C2C"><input type="radio" name="colorTheme" value="blush-cream" hidden /><span>Blush &amp; Cream</span></label>
+            <label class="theme-pill" style="--tc:#C8D8C9;--ttc:#2C2C2C"><input type="radio" name="colorTheme" value="garden-sage" hidden /><span>Garden Sage</span></label>
+            <label class="theme-pill" style="--tc:#b2d5e1;--ttc:#2C2C2C"><input type="radio" name="colorTheme" value="bluesky" hidden /><span>BlueSky</span></label>
+            <label class="theme-pill" style="--tc:#F5C842;--ttc:#2C2C2C"><input type="radio" name="colorTheme" value="golden-hour" hidden /><span>Golden Hour</span></label>
+          </div>
+        </div>
+        <div class="bstep-nav">
+          <button class="bbtn bbtn-ghost" data-back="step1">← Back</button>
+          <button class="bbtn bbtn-primary" data-next="step3">Next Step →</button>
+        </div>
+      </section>
+
+      <!-- STEP 2C — SURPRISE ME -->
+      <section class="bstep" id="step2surprise" style="display:none">
+        <h1 class="bstep-title">Surprise Me!</h1>
+        <p class="bstep-sub">Tell us the occasion and we'll handle the rest</p>
+        <div class="surprise-illus"><img src="images/surprise.jpg" alt="" onerror="this.style.display='none'" /><div class="surprise-placeholder"><span>Surprise Illustration</span></div></div>
+        <div class="bsection">
+          <h2 class="bsection-title">Purpose of Flowers</h2>
+          <div class="purpose-grid">
+            <label class="pcard"><input type="radio" name="purposeS" value="gift" hidden /><div class="pcard-inner"><strong>Gift</strong><span>For someone special</span></div></label>
+            <label class="pcard"><input type="radio" name="purposeS" value="wedding" hidden /><div class="pcard-inner"><strong>Wedding</strong><span>Bridal &amp; ceremony</span></div></label>
+            <label class="pcard"><input type="radio" name="purposeS" value="birthday" hidden /><div class="pcard-inner"><strong>Birthday</strong><span>Celebrate a birthday</span></div></label>
+            <label class="pcard"><input type="radio" name="purposeS" value="anniversary" hidden /><div class="pcard-inner"><strong>Anniversary</strong><span>Mark a milestone</span></div></label>
+            <label class="pcard"><input type="radio" name="purposeS" value="just-because" hidden /><div class="pcard-inner"><strong>Just Because</strong><span>No reason needed</span></div></label>
+            <label class="pcard"><input type="radio" name="purposeS" value="sympathy" hidden /><div class="pcard-inner"><strong>Sympathy</strong><span>Comfort &amp; care</span></div></label>
+          </div>
+        </div>
+        <div class="bsection">
+          <h2 class="bsection-title">Budget Range</h2>
+          <div class="budget-row">
+            <label class="budget-btn"><input type="radio" name="budget" value="under30"  hidden /><span>Under $30</span></label>
+            <label class="budget-btn"><input type="radio" name="budget" value="30-60"    hidden /><span>$30–$60</span></label>
+            <label class="budget-btn"><input type="radio" name="budget" value="60-100"   hidden /><span>$60–$100</span></label>
+            <label class="budget-btn"><input type="radio" name="budget" value="100-150"  hidden /><span>$100–$150</span></label>
+            <label class="budget-btn"><input type="radio" name="budget" value="150plus"  hidden /><span>$150+</span></label>
+          </div>
+        </div>
+        <div class="bstep-nav">
+          <button class="bbtn bbtn-ghost" data-back="step1">← Back</button>
+          <button class="bbtn bbtn-primary" data-next="step3">Next Step →</button>
+        </div>
+      </section>
+
+      <!-- STEP 3 — REQUIREMENTS -->
+      <section class="bstep" id="step3" style="display:none">
+        <h1 class="bstep-title">Special Requirements</h1>
+        <p class="bstep-sub">Let us know about any preferences</p>
+
+        <!-- Comment -->
+        <div class="bsection">
+          <h2 class="bsection-title">Comment <span class="optional">(optional)</span></h2>
+          <p class="bsection-hint">Any special requirements or additional instructions</p>
+          <textarea class="bmsg" name="cardMessage" rows="4"></textarea>
+        </div>
+
+        <!-- Add-ons -->
+        <div class="bsection">
+          <h2 class="bsection-title">Add-ons</h2>
+          <div class="check-grid">
+
+            <div class="addon-card" id="addonGreeting">
+              <label class="bcheck addon-card-trigger">
+                <input type="checkbox" name="addon" value="greeting-card" data-price="3" id="cbGreeting" />
+                <span>Greeting card <em>+$3</em></span>
+              </label>
+              <div class="addon-card-panel" id="greetingPanel">
+                <p class="addon-card-hint">Write your message below — we'll print it on the card ✦</p>
+                <div class="greeting-card-preview">
+                  <div class="gcard-inner">
+                    <div class="gcard-lines"><span></span><span></span><span></span><span></span></div>
+                    <textarea class="gcard-textarea" id="greetingText" name="greetingMessage" maxlength="200"
+                      placeholder="e.g. Happy Birthday! Wishing you all the joy in the world"></textarea>
+                    <div class="gcard-counter"><span id="greetingCount">0</span> / 200</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <label class="bcheck"><input type="checkbox" name="addon" value="vase"       data-price="12" /> <span>Vase <em>+$12</em></span></label>
+            <label class="bcheck"><input type="checkbox" name="addon" value="chocolates" data-price="8"  /> <span>Chocolates <em>+$8</em></span></label>
+            <label class="bcheck"><input type="checkbox" name="addon" value="teddy-bear" data-price="15" /> <span>Teddy Bear <em>+$15</em></span></label>
+          </div>
+        </div>
+
+        <div class="bstep-nav">
+          <button class="bbtn bbtn-ghost" id="step3Back">← Back</button>
+          <button class="bbtn bbtn-primary" data-next="step4">Next Step →</button>
+        </div>
+      </section>
+
+      <!-- STEP 4 — CHECKOUT -->
+      <section class="bstep" id="step4" style="display:none">
+        <h1 class="bstep-title">Checkout &amp; Delivery</h1>
+        <p class="bstep-sub">Almost there! Fill in your details to complete your order.</p>
+        <div class="checkout-grid">
+          <div class="checkout-form">
+            <div class="bsection">
+              <h2 class="bsection-title">Personal Information</h2>
+              <div class="form-field"><label>Full Name</label><input type="text" name="fullName" placeholder="Jane Smith" /></div>
+              <div class="form-field"><label>Phone Number</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000" /></div>
+              <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="jane@gmail.com" /></div>
+            </div>
+            <div class="bsection">
+              <h2 class="bsection-title">Delivery Method</h2>
+              <div class="delivery-options">
+                <label class="deliv-opt"><input type="radio" name="delivery" value="standard" checked /><div class="deliv-body"><strong>Standard Delivery</strong><span>3–5 days · Free</span></div></label>
+                <label class="deliv-opt"><input type="radio" name="delivery" value="express"  /><div class="deliv-body"><strong>Express Delivery</strong><span>Next day · $9.99</span></div></label>
+                <label class="deliv-opt"><input type="radio" name="delivery" value="pickup"   /><div class="deliv-body"><strong>Pick Up</strong><span>From our store · Free</span></div></label>
+              </div>
+            </div>
+            <div class="bsection">
+              <h2 class="bsection-title">Delivery Date &amp; Time</h2>
+              <div class="form-row">
+                <div class="form-field"><label>Date</label><input type="text" name="delivDate" placeholder="MM / DD / YYYY" /></div>
+                <div class="form-field"><label>Time Slot</label><select name="delivTime"><option value="">Select time…</option><option>9:00 AM – 12:00 PM</option><option>12:00 PM – 3:00 PM</option><option>3:00 PM – 6:00 PM</option></select></div>
+              </div>
+            </div>
+            <div class="bsection">
+              <h2 class="bsection-title">Delivery Address</h2>
+              <div class="form-field"><label>Street Address</label><input type="text" name="street" placeholder="123 Main Street" /></div>
+              <div class="form-field"><label>City / ZIP</label><input type="text" name="cityzip" placeholder="New York, NY 10001" /></div>
+            </div>
+          </div>
+          <div class="checkout-side">
+            <div class="bsection">
+              <h2 class="bsection-title">Order Summary</h2>
+              <div class="order-summary-box">
+                <div class="os-img"><img src="images/best-1.JPG" alt="Your order" onerror="this.style.display='none'" /><div class="os-img-placeholder"></div></div>
+                <p class="os-title" id="osSummaryTitle">Your Bouquet</p>
+                <p class="os-detail" id="osSummaryDetail">Your selections will appear here</p>
+                <hr class="os-hr" />
+                <div id="osPriceLines"></div>
+                <hr class="os-hr" />
+                <div class="os-total"><span>Total</span><span id="osTotal">$0.00</span></div>
+              </div>
+            </div>
+            <div class="bsection">
+              <h2 class="bsection-title">Payment Method</h2>
+              <div class="pay-options">
+                <label class="pay-opt"><input type="radio" name="payment" value="credit" checked /><div class="pay-body"><strong>Credit Card</strong><span>Visa / Mastercard</span></div></label>
+                <label class="pay-opt"><input type="radio" name="payment" value="paypal" /><div class="pay-body"><strong>PayPal</strong><span>Pay with PayPal</span></div></label>
+                <label class="pay-opt"><input type="radio" name="payment" value="apple"  /><div class="pay-body"><strong>Apple Pay</strong><span>Touch ID</span></div></label>
+              </div>
+              <div class="card-fields" id="cardFields">
+                <div class="form-field"><label>Card Number</label><input type="text" name="cardNum" placeholder="1234  5678  9012  3456" maxlength="19" /></div>
+                <div class="form-row">
+                  <div class="form-field"><label>Expiry</label><input type="text" name="expiry" placeholder="MM / YY" maxlength="7" /></div>
+                  <div class="form-field"><label>CVV</label><input type="text" name="cvv" placeholder="•••" maxlength="4" /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="place-order-wrap">
+          <button class="bbtn bbtn-ghost" data-back="step3">← Back</button>
+          <button class="place-order-btn" id="placeOrderBtn">Place Order</button>
+        </div>
+        <p class="legal-note">By placing your order you agree to our Terms &amp; Conditions and Privacy Policy.</p>
+      </section>
+
+      <!-- SUCCESS -->
+      <section class="bstep" id="stepSuccess" style="display:none">
+        <div class="success-wrap">
+          <div class="success-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></div>
+          <h1 class="bstep-title">Order Placed!</h1>
+          <p class="bstep-sub">Thank you! We've received your order and will be in touch soon.</p>
+          <a href="index.html" class="bbtn bbtn-primary" style="margin-top:32px;">Back to Home</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner container">
+      <div class="footer-brand"><a href="index.html" class="footer-logo"><img src="images/logo-white.png" alt="M0re Than Fl0wers" /></a><p>Handcrafted yarn flowers<br />made to last a lifetime.</p></div>
+      <div class="footer-col"><h4 class="footer-heading">Navigate</h4><ul><li><a href="index.html">Home</a></li><li><a href="flowers.html">Flowers</a></li><li><a href="booking.html">Booking</a></li></ul></div>
+      <div class="footer-col"><h4 class="footer-heading">Info</h4><ul><li><a href="#">About Us</a></li><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="footer-col"><h4 class="footer-heading">Follow Us</h4><div class="social-row"><a href="https://www.instagram.com/m0re.than.flowers/" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="social-btn" aria-label="Facebook"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a><a href="#" class="social-btn xhs" aria-label="小红书"><span>小红书</span></a></div></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 More Than Fl0wers · All rights reserved.</p></div>
+  </footer>
+
+</body>
+</html>
